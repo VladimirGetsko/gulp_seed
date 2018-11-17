@@ -1,11 +1,13 @@
 'use strict';
 
-const   gulp = require('gulp'),
+const gulp = require('gulp'),
 autoprefixer = require('gulp-autoprefixer'),
 notify = require('gulp-notify'),
 sass = require('gulp-sass'),
 sourcemaps = require('gulp-sourcemaps'),
 clean = require('gulp-clean'),
+babel = require('gulp-babel'),
+uglify = require('gulp-uglify'),
 browserSync = require('browser-sync').create();
 
 
@@ -27,6 +29,18 @@ gulp.task('sass', () => {
 gulp.task('html', () => {
  return gulp.src('src/index.html')
  .pipe(gulp.dest('app/'))
+ .pipe(browserSync.stream());
+});
+
+gulp.task('js', () => {
+ return gulp.src('src/js/**/*.js')
+ .pipe(sourcemaps.init())
+ .pipe(babel({
+            presets: ['@babel/env']
+        }).on('error', notify.onError("JS-babel-Error: <%= error.message %>")))
+ .pipe(uglify().on('error', notify.onError("JS-uglify-Error: <%= error.message %>")))
+ .pipe(sourcemaps.write())
+ .pipe(gulp.dest('app/js'))
  .pipe(browserSync.stream());
 });
 
