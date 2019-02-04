@@ -128,8 +128,12 @@ gulp.task('clean', () => {
 
 gulp.task('dev', ['watch', 'html:dev', 'js:dev', 'libs', 'img:dev', 'fonts', 'sass:dev', 'connect']);
 
-gulp.task('prod', ['html:prod', 'js:prod', 'libs', 'img:prod', 'fonts', 'sass:prod']);
+gulp.task('production', ['html:prod', 'js:prod', 'libs', 'img:prod', 'fonts', 'sass:prod']);
 
 gulp.task('default', ['clean'], () => {
   gulp.start('dev');
+});
+
+gulp.task('prod', ['clean'], () => {
+  gulp.start('production');
 });
